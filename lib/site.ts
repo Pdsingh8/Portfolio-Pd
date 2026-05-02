@@ -4,8 +4,8 @@ export const siteConfig = {
   location: "Jaipur, IN",
   availability: "Available for select builds",
   hero: {
-    eyebrow: "AI Engineer / Product Designer / Automation Architect",
-    title: ["AI SYSTEMS.", "AUTOMATIONS.", "PRODUCTS."],
+    eyebrow: "Some build. / Some automate.",
+    title: ["ONE PERSON.", "THE OUTPUT", "OF A TEAM."],
     summary: "I design and ship AI workflows, internal tools, and product experiences that let a lean team move like a much bigger one.",
     support: "From evaluation pipelines and compliance engines to lead-gen automation and cinematic AI creative.",
     stats: [

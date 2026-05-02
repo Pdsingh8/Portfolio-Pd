@@ -79,11 +79,11 @@ export default function CircularSection({ videoSrc, backVideoSrc = "/assets/vide
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
-      className="relative w-full min-h-[800px] py-32 flex items-center justify-center overflow-hidden bg-[#0D0C0B]"
+      className="relative w-full min-h-[560px] md:min-h-[800px] py-20 md:py-32 flex flex-col items-center justify-center overflow-hidden bg-[#0D0C0B]"
       style={{ perspective: 1500 }}
     >
       
-      {/* Left Text Block */}
+      {/* Left Text Block — desktop only */}
       <motion.div
         initial={{ x: -20, opacity: 0 }}
         whileInView={{ x: 0, opacity: 1 }}
@@ -100,6 +100,20 @@ export default function CircularSection({ videoSrc, backVideoSrc = "/assets/vide
         </span>
         <span className="font-[family-name:var(--font-cormorant)] text-[4vw] font-light italic text-[#F5F0E8] leading-tight">
           for work.
+        </span>
+      </motion.div>
+
+      {/* Mobile availability badge — above circle */}
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.3 }}
+        className="lg:hidden flex items-center gap-2 mb-8 z-30"
+      >
+        <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+        <span className="font-[family-name:var(--font-geist)] text-[10px] tracking-[0.3em] text-[#F5F0E8]/50 uppercase">
+          Currently available for work
         </span>
       </motion.div>
 
@@ -174,7 +188,7 @@ export default function CircularSection({ videoSrc, backVideoSrc = "/assets/vide
         </div>
       </motion.div>
 
-      {/* Right Stats Block */}
+      {/* Right Stats Block — desktop only */}
       <motion.div
         initial={{ x: 20, opacity: 0 }}
         whileInView={{ x: 0, opacity: 1 }}
@@ -194,6 +208,33 @@ export default function CircularSection({ videoSrc, backVideoSrc = "/assets/vide
           <span className="font-[family-name:var(--font-cormorant)] text-[3.5vw] font-light leading-none">100%</span>
           <span className="font-[family-name:var(--font-geist)] text-xs tracking-[0.2em] opacity-40 uppercase mt-1">Remote</span>
         </div>
+      </motion.div>
+
+      {/* Mobile / Tablet stats bar — below the circle */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.7, delay: 0.5 }}
+        className="lg:hidden flex items-center justify-center gap-10 sm:gap-16 mt-10 z-30 text-[#F5F0E8]"
+      >
+        {[
+          { value: "8+",   label: "Clients" },
+          { value: "23",   label: "Tools" },
+          { value: "100%", label: "Remote" },
+        ].map((stat, i) => (
+          <div key={stat.label} className="flex flex-col items-center">
+            <span className="font-[family-name:var(--font-cormorant)] text-4xl sm:text-5xl font-light leading-none">
+              {stat.value}
+            </span>
+            <span className="font-[family-name:var(--font-geist)] text-[9px] tracking-[0.25em] opacity-40 uppercase mt-1.5">
+              {stat.label}
+            </span>
+            {i < 2 && (
+              <div className="hidden" />
+            )}
+          </div>
+        ))}
       </motion.div>
 
       {/* Bottom Label Content */}
