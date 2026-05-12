@@ -21,7 +21,7 @@ export default function FooterSection() {
               Open to new <em className="text-[#C4622D] italic">opportunities</em> and bold ideas.
             </h2>
             <p className="font-geist text-sm text-white/50 leading-relaxed max-w-md">
-              Whether you need an AI agent that sells, or a complete full-stack web application, let's talk about how we can build it.
+              Whether you need an AI agent that sells, or a complete full-stack web application, let&apos;s talk about how we can build it.
             </p>
           </div>
 

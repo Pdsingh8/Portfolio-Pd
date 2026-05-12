@@ -154,25 +154,32 @@ export default function HeroSection({
       {/* Background Video */}
       <motion.div
         style={{ y: videoY }}
-        className="absolute inset-0 w-full h-full"
+        className="absolute inset-0 w-full h-full bg-[#0D0C0B]"
       >
-        {activeBgSrc ? (
-          <motion.video
-            ref={bgVideoRef}
-            key={activeBgSrc} // Re-render when source changes to trigger play
-            initial={{ opacity: 0.2 }}
-            animate={{ opacity: 0.35 }}
-            transition={{ duration: 1.5 }}
+        {bgVideos.length > 0 ? (
+          bgVideos.map((src, i) => (
+            <video
+              key={src}
+              src={src}
+              autoPlay
+              muted
+              loop
+              playsInline
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+                i === currentBgIndex ? "opacity-35" : "opacity-0"
+              }`}
+            />
+          ))
+        ) : activeBgSrc ? (
+          <video
             src={activeBgSrc}
             autoPlay
             muted
             loop
             playsInline
-            className="w-full h-full object-cover opacity-35"
+            className="absolute inset-0 w-full h-full object-cover opacity-35"
           />
-        ) : (
-          <div className="w-full h-full bg-[#0D0C0B] opacity-35" />
-        )}
+        ) : null}
       </motion.div>
 
       {/* Nav */}
@@ -207,7 +214,7 @@ export default function HeroSection({
         style={{ y: textY }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="absolute top-[22%] md:top-[18%] left-[6vw] z-30 font-cormorant text-[#F5F0E8] flex flex-col"
+        className="absolute top-[32%] md:top-[18%] left-[6vw] z-30 font-cormorant text-[#F5F0E8] flex flex-col"
       >
         <motion.div
           variants={mainTextLine1Variants}
@@ -239,7 +246,6 @@ export default function HeroSection({
       <AnimatePresence>
         {isHovered && (
           <motion.div
-            key={activeThumbnailSrc || "fallback"} // Will trigger enter/exit when this changes
             style={{
               left: smoothX,
               top: smoothY,
@@ -252,9 +258,22 @@ export default function HeroSection({
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="fixed z-50 w-[42vw] h-[28vw] md:w-[22vw] md:h-[15vw] border border-[rgba(245,240,232,0.15)] shadow-[0_12px_50px_rgba(0,0,0,0.5)] overflow-hidden pointer-events-none bg-[#C4622D] flex items-center justify-center origin-top-left"
           >
-            {activeThumbnailSrc ? (
+            {thumbnailVideos.length > 0 ? (
+              thumbnailVideos.map((src, i) => (
+                <video
+                  key={src}
+                  src={src}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
+                    i === currentThumbIndex ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+              ))
+            ) : activeThumbnailSrc ? (
               <video
-                ref={thumbVideoRef}
                 src={activeThumbnailSrc}
                 autoPlay
                 muted

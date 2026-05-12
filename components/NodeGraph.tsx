@@ -207,7 +207,7 @@ export default function NodeGraph({ flowType = "rag-pipeline" }: { flowType?: st
   }, [config]);
 
   useEffect(() => {
-    let frame = requestAnimationFrame(() => {
+    const frame = requestAnimationFrame(() => {
       computeEdges();
     });
     const ro = new ResizeObserver(computeEdges);
@@ -221,7 +221,9 @@ export default function NodeGraph({ flowType = "rag-pipeline" }: { flowType?: st
   }, [computeEdges]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsTesting(false);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setActivePopups(new Set());
     timeoutRefs.current.forEach((timeoutId) => window.clearTimeout(timeoutId));
     timeoutRefs.current = [];

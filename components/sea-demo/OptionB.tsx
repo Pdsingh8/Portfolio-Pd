@@ -6,6 +6,50 @@ import { projects } from "@/lib/projects";
 
 const seaProjects = [...projects, ...projects, ...projects, ...projects].map((p, i) => ({ ...p, uniqueId: `${p.id}-${i}` }));
 
+function DemoCard({ project, smoothProgress, i }: { project: typeof seaProjects[0], smoothProgress: any, i: number }) {
+  const xOffset = (i % 4) * 25 - 30; // -30% to 45%
+  const yStart = 120 + (i * 10);
+  const yEnd = -50 - (i * 20);
+  const scale = 0.6 + ((i % 3) * 0.2);
+  
+  const yMove = useTransform(smoothProgress, [0, 1], [`${yStart}%`, `${yEnd}%`]);
+  const xMove = useTransform(smoothProgress, [0, 1], [`${xOffset}%`, `${xOffset + (i % 2 === 0 ? 10 : -10)}%`]);
+
+  return (
+    <motion.div
+      style={{
+        y: yMove,
+        x: xMove,
+        scale,
+        position: "absolute",
+        left: `${10 + (i % 5) * 18}%`, // Distribute horizontally
+        top: "0%"
+      }}
+      className="w-[300px] sm:w-[400px] aspect-[4/5] rounded-3xl overflow-hidden cursor-pointer group shadow-2xl"
+    >
+      <div className="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors z-10" />
+      
+      <div 
+        className="w-full h-full relative"
+        style={{ background: project.gradient }}
+      >
+         <div className="absolute inset-0 flex items-center justify-center p-8 text-center opacity-30">
+           <span className="font-cormorant text-4xl font-light text-white">{project.title}</span>
+         </div>
+      </div>
+
+      <div className="absolute bottom-0 left-0 w-full p-8 z-20 translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
+        <span className="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-md rounded-full font-geist text-[10px] tracking-widest uppercase text-[#C4622D] border border-white/10 mb-4">
+          {project.category}
+        </span>
+        <h3 className="font-cormorant text-3xl font-light leading-tight text-white">
+          {project.title}
+        </h3>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function OptionB() {
   const containerRef = useRef<HTMLDivElement>(null);
   
@@ -31,52 +75,9 @@ export default function OptionB() {
 
         {/* The Sea */}
         <div className="relative w-full h-full">
-          {seaProjects.map((project, i) => {
-            // Randomize positions and movement speeds based on index
-            const xOffset = (i % 4) * 25 - 30; // -30% to 45%
-            const yStart = 120 + (i * 10);
-            const yEnd = -50 - (i * 20);
-            const scale = 0.6 + ((i % 3) * 0.2);
-            
-            // Individual parallax transforms
-            const yMove = useTransform(smoothProgress, [0, 1], [`${yStart}%`, `${yEnd}%`]);
-            const xMove = useTransform(smoothProgress, [0, 1], [`${xOffset}%`, `${xOffset + (i % 2 === 0 ? 10 : -10)}%`]);
-
-            return (
-              <motion.div
-                key={project.uniqueId}
-                style={{
-                  y: yMove,
-                  x: xMove,
-                  scale,
-                  position: "absolute",
-                  left: `${10 + (i % 5) * 18}%`, // Distribute horizontally
-                  top: "0%"
-                }}
-                className="w-[300px] sm:w-[400px] aspect-[4/5] rounded-3xl overflow-hidden cursor-pointer group shadow-2xl"
-              >
-                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors z-10" />
-                
-                <div 
-                  className="w-full h-full relative"
-                  style={{ background: project.gradient }}
-                >
-                   <div className="absolute inset-0 flex items-center justify-center p-8 text-center opacity-30">
-                     <span className="font-cormorant text-4xl font-light text-white">{project.title}</span>
-                   </div>
-                </div>
-
-                <div className="absolute bottom-0 left-0 w-full p-8 z-20 translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
-                  <span className="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-md rounded-full font-geist text-[10px] tracking-widest uppercase text-[#C4622D] border border-white/10 mb-4">
-                    {project.category}
-                  </span>
-                  <h3 className="font-cormorant text-3xl font-light leading-tight text-white">
-                    {project.title}
-                  </h3>
-                </div>
-              </motion.div>
-            );
-          })}
+          {seaProjects.map((project, i) => (
+            <DemoCard key={project.uniqueId} project={project} smoothProgress={smoothProgress} i={i} />
+          ))}
         </div>
       </div>
     </div>
